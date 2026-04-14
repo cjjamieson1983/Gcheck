@@ -1,0 +1,80 @@
+plugins:
+  - artifactId: "aws-credentials"
+    source:
+      version: "254.v978a_5e206a_d7"
+  - artifactId: "pipeline-github"
+    source:
+      version: "2.8-162.382498405fdc"
+  - artifactId: "snyk-security-scanner"
+    source:
+      version: "5.0.1"
+  - artifactId: "ansicolor"
+  - artifactId: "terraform"
+    source:
+      version: "1.0.10"
+  # =========================
+  # AWS
+  # =========================
+  - artifactId: "aws-credentials"
+  - artifactId: "pipeline-aws"
+  - artifactId: "ec2"
+  - artifactId: "amazon-ecr"
+  - artifactId: "codedeploy"
+  - artifactId: "aws-lambda"
+  - artifactId: "codebuild"
+  - artifactId: "s3"
+  - artifactId: "aws-secrets-manager-credentials-provider"
+  - artifactId: "aws-codepipeline"
+  - artifactId: "configuration-as-code-secret-ssm"
+  - artifactId: "aws-cloudformation"
+  - artifactId: "aws-sam"
+
+  # =========================
+  # Terraform
+  # =========================
+  - artifactId: "terraform"
+
+  # =========================
+  # Google Cloud
+  # =========================
+  - artifactId: "kubernetes"
+  - artifactId: "google-storage-plugin"
+  - artifactId: "google-kubernetes-engine"
+  - artifactId: "google-oauth-plugin"
+  - artifactId: "pipeline-gcp"
+
+  # =========================
+  # DevSecOps
+  # =========================
+  - artifactId: "snyk-security-scanner"
+
+  # =========================
+  # SonarQube
+  # =========================
+  - artifactId: "sonar"
+
+  # =========================
+  # Aqua Security
+  # =========================
+  - artifactId: "aqua-security-scanner"
+  - artifactId: "aqua-microscanner"
+  - artifactId: "aqua-serverless-scanner"
+
+  # =========================
+  # GitHub
+  # =========================
+  - artifactId: "github"
+  - artifactId: "github-oauth"
+  - artifactId: "pipeline-github"
+  - artifactId: "pipeline-githubnotify-step"
+
+  # =========================
+  # Maven
+  # =========================
+  - artifactId: "maven-plugin"
+  - artifactId: "pipeline-maven"
+
+  # =========================
+  # Publish
+  # =========================
+  - artifactId: "publish-over-ssh"

@@ -1,0 +1,69 @@
+resource "aws_s3_bucket" "frontend" {
+  bucket_prefix = "jenkins-bucket-"
+  force_destroy = true
+
+  tags = {
+    Name = "G-Check Bucket"
+  }
+}
+
+resource "aws_s3_bucket_versioning" "frontend" {
+  bucket = aws_s3_bucket.frontend.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+resource "aws_s3_bucket_server_side_encryption_configuration" "frontend" {
+  bucket = aws_s3_bucket.frontend.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+resource "aws_s3_bucket_public_access_block" "frontend" {
+  bucket = aws_s3_bucket.frontend.id
+
+  block_public_acls       = false
+  ignore_public_acls      = false
+  block_public_policy     = false
+  restrict_public_buckets = false
+}
+
+
+resource "aws_s3_object" "Armageddonrepojpg" {
+  bucket = aws_s3_bucket.frontend.id
+  key    = "gcheck/Armageddonrepo.jpg"
+  source = "${path.module}/ArmageddonRepo.jpg"
+  etag   = filemd5("${path.module}/ArmageddonRepo.jpg")
+  content_type = "image/jpeg"
+}
+
+resource "aws_s3_object" "armageddonrepomd" {
+  bucket = aws_s3_bucket.frontend.id
+  key    = "gcheck/Armageddonrepo.md"
+  source = "${path.module}/ArmageddonRepo.md"
+  etag   = filemd5("${path.module}/ArmageddonRepo.md")
+  content_type ="text/markdown"
+}
+
+resource "aws_s3_bucket_policy" "public_read" {
+  bucket = aws_s3_bucket.frontend.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Sid       = "PublicReadObjects"
+        Effect    = "Allow"
+        Principal = "*"
+        Action    = "s3:GetObject"
+        Resource  = "${aws_s3_bucket.frontend.arn}/*"
+      }
+    ]
+  })
+}
