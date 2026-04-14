@@ -6,7 +6,12 @@ pipeline {
         TF_IN_AUTOMATION   = 'true'
     }
 
+    triggers {
+        githubPush()
+    }
+
     stages {
+
         stage('Checkout') {
             steps {
                 checkout scm
@@ -15,38 +20,45 @@ pipeline {
 
         stage('Terraform Init') {
             steps {
-                sh 'terraform init'
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'jenkins-aws-access'
+                ]]) {
+                    sh 'terraform init'
+                }
+            }
+        }
+
+        stage('Terraform Plan') {
+            steps {
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'jenkins-aws-access'
+                ]]) {
+                    sh 'terraform plan'
+                }
             }
         }
 
         stage('Terraform Apply') {
             steps {
-                sh '''
-                    terraform plan -out=tfplan
-                    terraform apply -auto-approve tfplan
-                '''
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'jenkins-aws-access'
+                ]]) {
+                    sh 'terraform apply -auto-approve'
+                }
             }
         }
 
         stage('Optional Destroy') {
             steps {
-                script {
-                    def destroyChoice = input(
-                        message: 'Do you want to run terraform destroy?',
-                        ok: 'Submit',
-                        parameters: [
-                            choice(
-                                name: 'DESTROY',
-                                choices: ['no', 'yes'],
-                                description: 'Select yes to destroy resources'
-                            )
-                        ]
-                    )
-                    if (destroyChoice == 'yes') {
-                        sh 'terraform destroy -auto-approve'
-                    } else {
-                        echo "Skipping destroy"
-                    }
+                input message: 'Destroy infrastructure?', ok: 'Yes, destroy it!'
+                withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'jenkins-aws-access'
+                ]]) {
+                    sh 'terraform destroy -auto-approve'
                 }
             }
         }
