@@ -50,6 +50,29 @@ resource "aws_s3_object" "armageddonrepomd" {
   content_type = "text/markdown"
 }
 
+resource "aws_s3_object" "gcheckss1" {
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/gcheckss1.jpg"
+  source       = "${path.module}/gcheckss1.jpg"
+  etag         = filemd5("${path.module}/gcheckss1.jpg")
+  content_type = "image/jpeg"
+}
+
+resource "aws_s3_object" "gcheckss2" {
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/gcheckss2.jpg"
+  source       = "${path.module}/gcheckss2.jpg"
+  etag         = filemd5("${path.module}/gcheckss2.jpg")
+  content_type = "image/jpeg"
+}
+
+resource "aws_s3_object" "gcheckss3" {
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/gcheckss3.jpg"
+  source       = "${path.module}/gcheckss3.jpg"
+  etag         = filemd5("${path.module}/gcheckss3.jpg")
+  content_type = "image/jpeg"
+}
 resource "aws_s3_bucket_policy" "public_read" {
   bucket = aws_s3_bucket.frontend.id
 
