@@ -34,25 +34,26 @@ resource "aws_s3_bucket_public_access_block" "frontend" {
   restrict_public_buckets = false
 }
 
-
 resource "aws_s3_object" "Armageddonrepojpg" {
-  bucket = aws_s3_bucket.frontend.id
-  key    = "gcheck/Armageddonrepo.jpg"
-  source = "${path.module}/ArmageddonRepo.jpg"
-  etag   = filemd5("${path.module}/ArmageddonRepo.jpg")
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/Armageddonrepo.jpg"
+  source       = "${path.module}/ArmageddonRepo.jpg"
+  etag         = filemd5("${path.module}/ArmageddonRepo.jpg")
   content_type = "image/jpeg"
 }
 
 resource "aws_s3_object" "armageddonrepomd" {
-  bucket = aws_s3_bucket.frontend.id
-  key    = "gcheck/Armageddonrepo.md"
-  source = "${path.module}/ArmageddonRepo.md"
-  etag   = filemd5("${path.module}/ArmageddonRepo.md")
-  content_type ="text/markdown"
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/Armageddonrepo.md"
+  source       = "${path.module}/ArmageddonRepo.md"
+  etag         = filemd5("${path.module}/ArmageddonRepo.md")
+  content_type = "text/markdown"
 }
 
 resource "aws_s3_bucket_policy" "public_read" {
   bucket = aws_s3_bucket.frontend.id
+
+  depends_on = [aws_s3_bucket_public_access_block.frontend]
 
   policy = jsonencode({
     Version = "2012-10-17"
