@@ -73,6 +73,34 @@ resource "aws_s3_object" "gcheckss3" {
   etag         = filemd5("${path.module}/gcheckss3.jpg")
   content_type = "image/jpeg"
 }
+resource "aws_s3_object" "webhook3" {
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/webhook3"
+  source       = "${path.module}/webhook3"
+  etag         = filemd5("${path.module}/webhook3")
+  content_type = "image/jpeg"
+}
+resource "aws_s3_object" "webhook2" {
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/webhook2"
+  source       = "${path.module}/webhook2"
+  etag         = filemd5("${path.module}/webhook2")
+  content_type = "image/jpeg"
+}
+resource "aws_s3_object" "webhook1" {
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/webhook1.jpg"
+  source       = "${path.module}/webhook1.jpg"
+  etag         = filemd5("${path.module}/webhook1.jpg")
+  content_type = "image/jpeg"
+}
+resource "aws_s3_object" "s3jpg" {
+  bucket       = aws_s3_bucket.frontend.id
+  key          = "gcheck/s3.jpg"
+  source       = "${path.module}/s3.jpg"
+  etag         = filemd5("${path.module}/s3.jpg")
+  content_type = "image/jpeg"
+}
 resource "aws_s3_bucket_policy" "public_read" {
   bucket = aws_s3_bucket.frontend.id
 
