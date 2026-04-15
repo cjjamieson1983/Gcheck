@@ -75,16 +75,16 @@ resource "aws_s3_object" "gcheckss3" {
 }
 resource "aws_s3_object" "webhook3" {
   bucket       = aws_s3_bucket.frontend.id
-  key          = "gcheck/webhook3"
-  source       = "${path.module}/webhook3"
-  etag         = filemd5("${path.module}/webhook3")
+  key          = "gcheck/webhook3.jpg"
+  source       = "${path.module}/webhook3.jpg"
+  etag         = filemd5("${path.module}/webhook3.jpg")
   content_type = "image/jpeg"
 }
 resource "aws_s3_object" "webhook2" {
   bucket       = aws_s3_bucket.frontend.id
-  key          = "gcheck/webhook2"
-  source       = "${path.module}/webhook2"
-  etag         = filemd5("${path.module}/webhook2")
+  key          = "gcheck/webhook2.jpg"
+  source       = "${path.module}/webhook2.jpg"
+  etag         = filemd5("${path.module}/webhook2.jpg")
   content_type = "image/jpeg"
 }
 resource "aws_s3_object" "webhook1" {
